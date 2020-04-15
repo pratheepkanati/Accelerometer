@@ -1,0 +1,259 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4412830057834476630",
+      "lastPropertyId": "30:8633884447786874502",
+      "name": "SensorData",
+      "properties": [
+        {
+          "id": "1:2716772393449160781",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1723308378793109516",
+          "name": "x_acc",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "3:1483143205585878310",
+          "name": "y_acc",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "4:8081757697168454978",
+          "name": "z_acc",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "5:7434425901824094656",
+          "name": "x_gra",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "6:7136692655218145652",
+          "name": "y_gra",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "7:4674984711793384798",
+          "name": "z_gra",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "8:3057406441787332704",
+          "name": "x_acc_g",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "9:9147016425720676499",
+          "name": "y_acc_g",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "10:7631505168225012051",
+          "name": "z_acc_g",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "11:4137389772701396685",
+          "name": "timestamp",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "12:2407047649056568346",
+          "name": "dateandtime",
+          "type": 9
+        },
+        {
+          "id": "13:8440914645506602795",
+          "name": "speed",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "14:120159859378927899",
+          "name": "speedinMiles",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "15:6664197268791388689",
+          "name": "x_acc_sf",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "16:6062863321166273989",
+          "name": "y_acc_sf",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "17:8829597512392450833",
+          "name": "z_acc_sf",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "18:4355291050860667461",
+          "name": "pitch",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "19:8800720432657156925",
+          "name": "roll",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "20:4175493053923867050",
+          "name": "yaw",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "21:5753453223037662546",
+          "name": "pitchQ",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "22:1259220494741293010",
+          "name": "rollQ",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "23:5802960699916852024",
+          "name": "yawQ",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "24:8103590794974126942",
+          "name": "speedlimit",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "25:2021330060720625188",
+          "name": "bearing",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "26:1379158633752181043",
+          "name": "hashbreak",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "27:5673737456716937829",
+          "name": "harshacceleration",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "28:3095717435151615371",
+          "name": "hashbreakAcc",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "29:5206333165462942113",
+          "name": "harshaccelerationAcc",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "30:8633884447786874502",
+          "name": "harshturn",
+          "type": 1,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:738434025141286983",
+      "lastPropertyId": "8:5319628287175925038",
+      "name": "Event",
+      "properties": [
+        {
+          "id": "1:6470575128906713786",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2948378562068877927",
+          "name": "eventName",
+          "type": 9
+        },
+        {
+          "id": "3:8742869684487439235",
+          "name": "eventTimeStamp",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "4:4254605448050061233",
+          "name": "eventTime",
+          "type": 9
+        },
+        {
+          "id": "5:7146981336920690124",
+          "name": "speed",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "6:6228285713202387907",
+          "name": "changeinSpeed",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "7:6811910740061996362",
+          "name": "acc",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "8:5319628287175925038",
+          "name": "gravity",
+          "type": 8,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:738434025141286983",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

@@ -1,21 +1,29 @@
 package com.lirctek.ics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.lirctek.ics.database.SensorData;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,14 +67,14 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
     Float getRollQ = 0f;
     Float getYawQ = 0f;
     // normal - sensor fusion, Q - denotes quaternion
-    Float newPitchOut;
-    Float newRollOut;
-    Float newYawOut;
+    float newPitchOut;
+    float newRollOut;
+    float newYawOut;
     //    int underX = 0;
 //    int underY = 0;
-    Float newPitchOutQ;
-    Float newRollOutQ;
-    Float newYawOutQ;
+    float newPitchOutQ;
+    float newRollOutQ;
+    float newYawOutQ;
     float mPitch, mRoll, mYaw;
     // for accelerometer
     float xAccelerometer;
@@ -95,6 +103,8 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
     private float[] accMagOrientation = new float[3];
     // final orientation angles from sensor fusion
     private float[] fusedOrientation = new float[3];
+    private float[]  sesorFustion = new float[3];
+
     // accelerometer and magnetometer based rotation matrix
     private float[] rotationMatrix = new float[9];
     private float timestamp;
@@ -103,15 +113,23 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
     private String SHARED_PREF_NAME = "driverbehaviorapp";
     private boolean mInitialized = false;
     private long currentMillsecs;
+    private float[] gravity= new float[3];
+    private float[] acc_with_gravity= new float[3];
+    private List<SensorData> sensorData=new ArrayList<>();
+    private RecyclerView truckDataList;
+    NewTruckInfoLogDataAdapter truckInfoLogDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fusion_sensor_activity);
-        textOverX = (TextView) findViewById(R.id.x_over_counter);
-        textOverY = (TextView) findViewById(R.id.y_over_counter);
-        textOverYaw = (TextView) findViewById(R.id.yaw_over_counter);
-        textOverPitch = (TextView) findViewById(R.id.pitch_over_counter);
+        Intent intent = new Intent(this, LocationService.class);
+        startService(intent);
+        truckDataList=findViewById(R.id.truckDataList);
+        textOverX = findViewById(R.id.x_over_counter);
+        textOverY = findViewById(R.id.y_over_counter);
+        textOverYaw = findViewById(R.id.yaw_over_counter);
+        textOverPitch = findViewById(R.id.pitch_over_counter);
 
         gyroOrientation[0] = 0.0f;
         gyroOrientation[1] = 0.0f;
@@ -128,9 +146,9 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
         gyroMatrix[7] = 0.0f;
         gyroMatrix[8] = 1.0f;
 
-        sPitch = (TextView) findViewById(R.id.pitch);
-        sRoll = (TextView) findViewById(R.id.roll);
-        sYaw = (TextView) findViewById(R.id.yaw);
+        sPitch = findViewById(R.id.pitch);
+        sRoll = findViewById(R.id.roll);
+        sYaw = findViewById(R.id.yaw);
 
         // get sensorManager and initialise sensor listeners
         mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
@@ -140,9 +158,20 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
         fuseTimer.scheduleAtFixedRate(new calculateFusedOrientationTask(),
                 3000, TIME_CONSTANT);
 
+        HPLinearLayoutManager layoutManager = new HPLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        truckInfoLogDataAdapter=new NewTruckInfoLogDataAdapter(sensorData);
+        truckDataList.setLayoutManager(layoutManager);
+        truckDataList.addItemDecoration(new SimpleDividerItemDecoration(this));
+        truckDataList.setAdapter(truckInfoLogDataAdapter);
+        truckInfoLogDataAdapter.notifyDataSetChanged();
+
     }
 
     public void initListeners() {
+        mSensorManager.registerListener(this,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
+                SensorManager.SENSOR_DELAY_FASTEST);
+
         mSensorManager.registerListener(this,
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
@@ -165,6 +194,14 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
                 xAccelerometer = event.values[0];
                 yAccelerometer = event.values[1];
                 zAccelerometer = event.values[2];
+                final float alpha = 0.8f;
+                gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+                gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+                gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+                acc_with_gravity[0] = event.values[0] - gravity[0];
+                acc_with_gravity[1]= event.values[1] - gravity[1];
+                acc_with_gravity[2] = event.values[2] - gravity[2];
                 calibrateAccelerometer();
                 // copy new accelerometer data into accel array
                 // then calculate new orientation
@@ -182,6 +219,10 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
                 mMagneticField = event.values;
                 System.arraycopy(event.values, 0, magnet, 0, 3);
                 break;
+            case Sensor.TYPE_GRAVITY:
+                gravity[0]=event.values[0];
+                gravity[1]=event.values[1];
+                gravity[2]=event.values[2];
         }
         displayQuaternion();
     }
@@ -201,9 +242,6 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
             xAccCalibrated = (xPreviousAcc - xAccelerometer);
             yAccCalibrated = (yPreviousAcc - yAccelerometer);
             zAccCalibrated = (zPreviousAcc - zAccelerometer);
-//            xAccCalibrated = ( xAccelerometer);
-//            yAccCalibrated = (yAccelerometer);
-//            zAccCalibrated = ( zAccelerometer);
             xPreviousAcc = xAccelerometer;
             yPreviousAcc = yAccelerometer;
             zPreviousAcc = zAccelerometer;
@@ -241,11 +279,45 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
         if (!displayPitch.equals("") && !displayRoll.equals("") && !displayYaw.equals("")) {
             writeCheck = false;
           long  currentMillsecs=System.currentTimeMillis();
-            if(this.currentMillsecs==0||currentMillsecs-this.currentMillsecs>1000){
+            if(this.currentMillsecs==0||currentMillsecs-this.currentMillsecs>500){
              this.currentMillsecs=currentMillsecs;
             sPitch.setText(displayPitch +"  "+xAccCalibrated+" "+ xAccelerometer);
             sRoll.setText(displayRoll + " "+yAccCalibrated+" "+ yAccelerometer) ;
             sYaw.setText(displayYaw+ " "+zAccCalibrated+" "+ zAccelerometer);
+
+                SensorData sensorData=new SensorData();
+                sensorData.setTimestamp(Util.getTimestmap());
+                sensorData.setDateandtime(Util.currentTime(TimeZone.getDefault()));
+                sensorData.setX_acc(xAccelerometer);
+                sensorData.setY_acc(yAccelerometer);
+                sensorData.setZ_acc(zAccelerometer);
+                sensorData.setX_acc_sf(xAccCalibrated);
+                sensorData.setY_acc_sf(yAccCalibrated);
+                sensorData.setZ_acc_sf(zAccCalibrated);
+                sensorData.setSpeed(LocationService.speed);
+                sensorData.setSpeedinMiles(LocationService.speedinMiles);
+                sensorData.setX_gra(gravity[0] );
+                sensorData.setY_gra(gravity[1] );
+                sensorData.setZ_gra(gravity[2] );
+                sensorData.setX_acc_g(acc_with_gravity[0]);
+                sensorData.setY_acc_g(acc_with_gravity[1]);
+                sensorData.setZ_acc_g(acc_with_gravity[2]);
+                sensorData.setPitch(sesorFustion[0]);
+                sensorData.setRoll(sesorFustion[1]);
+                sensorData.setYaw(sesorFustion[2]);
+                sensorData.setPitchQ(newPitchOutQ);
+                sensorData.setRollQ(newRollOutQ);
+                sensorData.setYawQ(newYawOutQ);
+                SensorData.insert(sensorData);
+                this.sensorData.add(0,sensorData);
+                Log.e("SENSORDATA",new Gson().toJson(sensorData));
+                truckInfoLogDataAdapter.notifyItemInserted(0);
+                truckDataList.scrollToPosition(0);
+                if(this.sensorData.size()>20){
+                    this.sensorData.remove(20);
+                    truckInfoLogDataAdapter.notifyItemRemoved(20);
+                }
+
             }
             count++;
 
@@ -547,7 +619,9 @@ public class SensorFusionActivity extends AppCompatActivity implements SensorEve
             newPitchOut = getPitch - pitchOut;
             newRollOut = getRoll - rollOut;
             newYawOut = getYaw - yawOut;
-
+            sesorFustion[0]= Float.parseFloat(d.format(newPitchOut));
+            sesorFustion[1]=Float.parseFloat(d.format(newRollOut));;
+            sesorFustion[2]=Float.parseFloat(d.format(newYawOut));;
             displayPitch = d.format(newPitchOut * 180 / Math.PI) + "degrees / " + d.format(newPitchOut) + " rad/s";
             displayRoll = d.format(newRollOut * 180 / Math.PI) + "degrees / " + d.format(newRollOut) + " rad/s";
             displayYaw = d.format(newYawOut * 180 / Math.PI) + "degrees / " + d.format(newYawOut) + " rad/s";

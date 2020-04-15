@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+        <variable
+            name="truckdata"
+            type="com.lirctek.ics.database.SensorData" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <LinearLayout
+
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:id="@+id/rpm"
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="@{Float.toString(truckdata.x_acc)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/speed"
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:text="@{Float.toString(truckdata.y_acc)}"
+                android:layout_width="0dp"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/odometer"
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:text="@{Float.toString(truckdata.z_acc)}"
+                android:layout_width="0dp"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/speed78"
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:textColor="@android:color/black"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:textStyle="bold"
+                android:text="@{Float.toString(truckdata.speed)}"
+                android:textSize="12dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:textColor="@android:color/black"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:textStyle="bold"
+                android:text="@{Integer.toString(truckdata.speedinMiles)}"
+                android:textSize="12dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/engineHour"
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:text="@{Float.toString(truckdata.x_acc_g)}"
+                android:layout_width="0dp"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/white"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:text="@{Float.toString(truckdata.y_acc_g)}"
+                android:layout_width="0dp"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:layout_marginStart="2dp"
+                android:padding="4dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/white"
+                android:layout_weight="1.3"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:text="@{Float.toString(truckdata.z_acc_g)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
