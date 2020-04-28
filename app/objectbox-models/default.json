@@ -191,52 +191,52 @@
       "relations": []
     },
     {
-      "id": "2:738434025141286983",
-      "lastPropertyId": "8:5319628287175925038",
-      "name": "Event",
+      "id": "3:7444123639357541084",
+      "lastPropertyId": "8:8124147323625518694",
+      "name": "DriveEvent",
       "properties": [
         {
-          "id": "1:6470575128906713786",
+          "id": "1:4324007355589324062",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:2948378562068877927",
+          "id": "2:4623909653251917336",
           "name": "eventName",
           "type": 9
         },
         {
-          "id": "3:8742869684487439235",
+          "id": "3:8840403591711451460",
           "name": "eventTimeStamp",
           "type": 6,
           "flags": 4
         },
         {
-          "id": "4:4254605448050061233",
+          "id": "4:3165741987035746191",
           "name": "eventTime",
           "type": 9
         },
         {
-          "id": "5:7146981336920690124",
+          "id": "5:4430869475042997098",
           "name": "speed",
           "type": 5,
           "flags": 4
         },
         {
-          "id": "6:6228285713202387907",
+          "id": "6:3777845868239762718",
           "name": "changeinSpeed",
           "type": 5,
           "flags": 4
         },
         {
-          "id": "7:6811910740061996362",
+          "id": "7:65858209450869125",
           "name": "acc",
           "type": 7,
           "flags": 4
         },
         {
-          "id": "8:5319628287175925038",
+          "id": "8:8124147323625518694",
           "name": "gravity",
           "type": 8,
           "flags": 4
@@ -245,15 +245,26 @@
       "relations": []
     }
   ],
-  "lastEntityId": "2:738434025141286983",
+  "lastEntityId": "3:7444123639357541084",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    738434025141286983
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    6470575128906713786,
+    2948378562068877927,
+    8742869684487439235,
+    4254605448050061233,
+    7146981336920690124,
+    6228285713202387907,
+    6811910740061996362,
+    5319628287175925038
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

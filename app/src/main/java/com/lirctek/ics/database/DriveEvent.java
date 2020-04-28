@@ -4,7 +4,7 @@ import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 @Entity
-public class Event {
+public class DriveEvent {
     public long getId() {
         return id;
     }
@@ -80,8 +80,8 @@ public class Event {
     private float acc;
     private double gravity;
 
-    public  static  void  insert(Event event){
-        Box<Event> sensorDataBox=ObjectBox.get().boxFor(Event.class);
-        sensorDataBox.put(event);
+    public  static  void  insert(DriveEvent driveEvent){
+        Box<DriveEvent> sensorDataBox=ObjectBox.get().boxFor(DriveEvent.class);
+        sensorDataBox.put(driveEvent);
     }
 }

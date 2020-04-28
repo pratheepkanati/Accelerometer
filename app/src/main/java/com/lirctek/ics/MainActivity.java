@@ -9,8 +9,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.lirctek.ics.database.Event;
-import com.lirctek.ics.database.ObjectBox;
+import com.lirctek.ics.database.DriveEvent;
 import com.lirctek.ics.database.SensorData;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Html;
-import android.view.Display;
-import android.view.Surface;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -142,27 +138,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
              // Harsh Accerleartion
             if(changeInspeedpersec>=7){
              sensorData.setHarshacceleration(true);
-                Event event=new Event();
-                event.setAcc(sensorEvent.values[0]);
-                event.setSpeed(LocationService.speedinMiles);
-                event.setChangeinSpeed(changeInspeedpersec);
-                event.setEventName("Harsh Accerleration with Speed");
-                event.setEventTime(sensorData.getDateandtime());
-                event.setEventTimeStamp(sensorEvent.timestamp);
-                Event.insert(event);
+                DriveEvent driveEvent =new DriveEvent();
+                driveEvent.setAcc(sensorEvent.values[0]);
+                driveEvent.setSpeed(LocationService.speedinMiles);
+                driveEvent.setChangeinSpeed(changeInspeedpersec);
+                driveEvent.setEventName("Harsh Accerleration with Speed");
+                driveEvent.setEventTime(sensorData.getDateandtime());
+                driveEvent.setEventTimeStamp(sensorEvent.timestamp);
+                DriveEvent.insert(driveEvent);
                 Snackbar.make(findViewById(R.id.fab), "Harsh Accerleration   with Speed", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
             // Harsh  Break
             else if(changeInspeedpersec<=-7){
-                Event event=new Event();
-                event.setAcc(sensorEvent.values[0]);
-                event.setSpeed(LocationService.speedinMiles);
-                event.setChangeinSpeed(changeInspeedpersec);
-                event.setEventName("Harsh Break   with Speed");
-                event.setEventTime(sensorData.getDateandtime());
-                event.setEventTimeStamp(sensorEvent.timestamp);
-                Event.insert(event);
+                DriveEvent driveEvent =new DriveEvent();
+                driveEvent.setAcc(sensorEvent.values[0]);
+                driveEvent.setSpeed(LocationService.speedinMiles);
+                driveEvent.setChangeinSpeed(changeInspeedpersec);
+                driveEvent.setEventName("Harsh Break   with Speed");
+                driveEvent.setEventTime(sensorData.getDateandtime());
+                driveEvent.setEventTimeStamp(sensorEvent.timestamp);
+                DriveEvent.insert(driveEvent);
                 sensorData.setHashbreak(true);
                 Snackbar.make(findViewById(R.id.fab), "Harsh Break with speed", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -177,39 +173,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             double ygravity=yVal*GRAVITY_PER_METER_SEC;
             if(ygravity>0.33||ygravity<-0.33){
                 sensorData.setHarshturn(true);
-                Event event=new Event();
-                event.setAcc(yVal);
-                event.setGravity(ygravity);
-                event.setSpeed(LocationService.speedinMiles);
-                event.setEventName("Harsh Turn   with ACC");
-                event.setEventTime(sensorData.getDateandtime());
-                event.setEventTimeStamp(sensorEvent.timestamp);
-                Event.insert(event);
+                DriveEvent driveEvent =new DriveEvent();
+                driveEvent.setAcc(yVal);
+                driveEvent.setGravity(ygravity);
+                driveEvent.setSpeed(LocationService.speedinMiles);
+                driveEvent.setEventName("Harsh Turn   with ACC");
+                driveEvent.setEventTime(sensorData.getDateandtime());
+                driveEvent.setEventTimeStamp(sensorEvent.timestamp);
+                DriveEvent.insert(driveEvent);
                 Snackbar.make(findViewById(R.id.fab), "Harsh Turn", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
             double xgravity=xVal*GRAVITY_PER_METER_SEC;
             if(xgravity>0.29){
-                Event event=new Event();
-                event.setAcc(xVal);
-                event.setGravity(xgravity);
-                event.setSpeed(LocationService.speedinMiles);
-                event.setEventName("Harsh Accelearation with Acc ");
-                event.setEventTime(sensorData.getDateandtime());
-                event.setEventTimeStamp(sensorEvent.timestamp);
-                Event.insert(event);
+                DriveEvent driveEvent =new DriveEvent();
+                driveEvent.setAcc(xVal);
+                driveEvent.setGravity(xgravity);
+                driveEvent.setSpeed(LocationService.speedinMiles);
+                driveEvent.setEventName("Harsh Accelearation with Acc ");
+                driveEvent.setEventTime(sensorData.getDateandtime());
+                driveEvent.setEventTimeStamp(sensorEvent.timestamp);
+                DriveEvent.insert(driveEvent);
                 Snackbar.make(findViewById(R.id.fab), "Harsh Accerleration using Acc", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
             else if(xgravity<-0.29){
-                Event event=new Event();
-                event.setAcc(sensorEvent.values[0]);
-                event.setGravity(xgravity);
-                event.setSpeed(LocationService.speedinMiles);
-                event.setEventName("Harsh Break with Acc ");
-                event.setEventTime(sensorData.getDateandtime());
-                event.setEventTimeStamp(sensorEvent.timestamp);
-                Event.insert(event);
+                DriveEvent driveEvent =new DriveEvent();
+                driveEvent.setAcc(sensorEvent.values[0]);
+                driveEvent.setGravity(xgravity);
+                driveEvent.setSpeed(LocationService.speedinMiles);
+                driveEvent.setEventName("Harsh Break with Acc ");
+                driveEvent.setEventTime(sensorData.getDateandtime());
+                driveEvent.setEventTimeStamp(sensorEvent.timestamp);
+                DriveEvent.insert(driveEvent);
                 Snackbar.make(findViewById(R.id.fab), "Harsh Break using Acc", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

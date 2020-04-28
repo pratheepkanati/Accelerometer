@@ -12,6 +12,22 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        double firstAngle=10;
+        double secondAngle=350;
+        double difference = secondAngle - firstAngle;
+        while (difference < -180) difference += 360;
+        while (difference > 180) difference -= 360;
+        assertEquals(20, difference);
+    }
+
+     @Test
+    public void calculateDifferenceBetweenAngles()
+    {    double firstAngle=90;
+         double secondAngle=350;
+        double difference = secondAngle - firstAngle;
+        while (difference < -180) difference += 360;
+        while (difference > 180) difference -= 360;
+        System.out.println(difference);
+
     }
 }
